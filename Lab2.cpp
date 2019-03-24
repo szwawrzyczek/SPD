@@ -11,8 +11,6 @@
 #include <fstream>
 
 std::vector<std::vector<int>> matrix;
-std::vector<std::vector<int>> data = { { 4, 1, 4 },{ 4, 3, 3 },{ 1, 2, 3 },{ 5, 1, 3 } };
-
 bool sortcol(const std::vector<int>& v1,
 	const std::vector<int>& v2) {
 	return v1[1] > v2[1];
@@ -121,7 +119,7 @@ int count_time(std::vector<std::vector<int>> table)
 }
 
 
-std::vector<std::vector<int>> combination_to_jobs(std::vector<int> combination)
+std::vector<std::vector<int>> combination_to_jobs(std::vector<int> combination, std::vector<std::vector<int>> data)
 {
 	std::vector<std::vector<int>> ready_to_count;
 	for (int i = 0; i<combination.size(); i++)
@@ -134,32 +132,6 @@ std::vector<std::vector<int>> combination_to_jobs(std::vector<int> combination)
 
 
 
-std::vector<std::vector<int>> load(std::string nazwa)
-{
-	int rozmiar = 0;
-	std::vector<std::vector<int>> arr;
-	std::fstream plik;
-	plik.open(nazwa, std::ios::in | std::ios::out);
-	if (plik.good())
-	{
-		plik >> rozmiar;
-		int i = 0;
-		while (!plik.eof())
-		{
-			arr.push_back(std::vector<int>());
-			int d;
-			plik >> d;
-			arr[i].push_back(d);
-			plik >> d;
-			arr[i].push_back(d);
-			//plik >> d;
-			//arr[i].push_back(d);
-			i++;
-		}
-	}
-	plik.close();
-	return arr;
-}
 /*
 void countCmax(std::vector<std::vector<int>> data, int jobs, int machines) {
 
@@ -198,7 +170,7 @@ std::vector<int> neh_function(std::vector<std::vector<int>> table)
 		int tmp = 1000000;
 		for (int k = 0; k<(sequence.size() + 1); k++)
 		{
-			tmp = count_time(combination_to_jobs(tmp_sequence[k]));
+			tmp = count_time(combination_to_jobs(tmp_sequence[k], table));
 			if (tmp < tmp_time)
 			{
 				tmp_time = tmp;
@@ -221,18 +193,55 @@ std::vector<int> neh_function(std::vector<std::vector<int>> table)
 //18
 
 
+std::vector<std::vector<int>> load(std::string nazwa)
+{
+	int row = 0;
+	int column = 0;
+	std::fstream plik;
+	plik.open(nazwa, std::ios::in | std::ios::out);
+	plik >> row;
+	plik >> column;
+	std::vector<std::vector<int>> arr(row, std::vector<int>(column));
+	if (plik.good())
+	{
+		while (!plik.eof())
+		{
+			for (int i = 0; i < row; ++i) {
+				for (int j = 0; j < column; ++j) {
+					plik >> arr[i][j];
+				}
+			}
+		}
+	}
+	plik.close();
+	/*
+	for (int i = 0; i < row; i++)
+	{
+	for (int j = 0; j < column; j++)
+	{
+	std::cout << arr[i][j] << '\t';
+	}
+	std::cout << '\n';
+	}
+	*/
+	
+	return arr;
+}
 
 
 
 int main()
 {
-	std::vector<int> cos = neh_function(data);
+	std::vector<std::vector<int>> table;
+	table = load("Dane.txt");
+	
+	std::vector<int> cos = neh_function(table);
+	/*
 	for (int i = 0; i<cos.size(); i++)
 		std::cout << cos[i] << "\n";
-
-	std::cout << "\n" << count_time(combination_to_jobs(cos)) << "\n";
-
-	combination_of_moveable_number(std::vector<int>{3, 5, 7}, 2);
-
+		*/
+	std::cout << "\n" << count_time(combination_to_jobs(cos, table)) << "\n";
+	//combination_of_moveable_number(std::vector<int>{3, 5, 7}, 2);
 	system("pause");
 }
+
