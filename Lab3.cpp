@@ -358,8 +358,15 @@ std::vector<int> simulated_annealing(std::vector<std::vector<int>> table,
 		{
 			current_sequence = current_sequence;
 		}
+		else
+		{
+			std::swap(current_sequence[rand_idx1], current_sequence[rand_idx2]);
+		}
 
 		current_temperature = (int)((float)current_temperature*cooling_parameter);
+
+
+
 
 		if (count_time_new < best_sequence_time)
 		{
