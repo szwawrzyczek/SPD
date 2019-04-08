@@ -422,6 +422,8 @@ int main()
 	std::vector<std::vector<int>> table;
 	table = load("Dane.txt");
 	std::vector<int> cos = neh_function(table);
+	int neh_mintime = count_time(combination_to_jobs(cos, table));
+	//std::cout << "min time neh " << neh_mintime << "\n";
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 	std::default_random_engine e(seed);
 	//auto rng = std::default_random_engine{};
@@ -430,7 +432,8 @@ int main()
 		//std::cout << cos[i] << "\n";
 	
 	std::vector<int> tmp = simulated_annealing(table, cos, 0.99, 5000, -1, 50);
-	std::cout << "min time " << count_time(combination_to_jobs(tmp, table)) << "\n";
+	std::cout << "min time simulated_annealing " << count_time(combination_to_jobs(tmp, table)) << "\n";
+	std::cout << "min time neh " << neh_mintime << "\n";
 	
 	return 0;
 }
