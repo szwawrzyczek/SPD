@@ -11,9 +11,10 @@
 #include <random>
 #include <chrono>
 
-
 std::vector<std::vector<int>> matrix;
 std::vector<std::vector<int>> data = { { 4, 1, 4 },{ 4, 3, 3 },{ 1, 2, 3 },{ 5, 1, 3 } };
+
+
 
 bool sortcol(const std::vector<int>& v1,
 	const std::vector<int>& v2) {
@@ -283,7 +284,7 @@ std::vector<int> neh_function(std::vector<std::vector<int>> table)
 			{
 				tmp_time = tmp;
 				tmp_time_idx = k;
-				//std::cout<<"\n||| k : "<<k<<" tmp "<<tmp<<" tmp_time "<< tmp_time<<"\n\n";
+				std::cout<<"\n||| k : "<<k<<" tmp "<<tmp<<" tmp_time "<< tmp_time<<"\n\n";
 			}
 			std::cout << "\n||| k : " << k << " tmp " << tmp << " tmp_time " << tmp_time << "\n\n";
 		}
@@ -425,10 +426,10 @@ int main()
 	std::default_random_engine e(seed);
 	//auto rng = std::default_random_engine{};
 	std::shuffle(std::begin(cos), std::end(cos), e);
-	for (int i = 0; i<cos.size(); i++)
-		std::cout << cos[i] << "\n";
+	//for (int i = 0; i<cos.size(); i++)
+		//std::cout << cos[i] << "\n";
 	
-	std::vector<int> tmp = simulated_annealing(table, cos, 0.95, 500, -1, 50);
+	std::vector<int> tmp = simulated_annealing(table, cos, 0.99, 5000, -1, 50);
 	std::cout << "min time " << count_time(combination_to_jobs(tmp, table)) << "\n";
 	
 	return 0;
